@@ -1,5 +1,7 @@
 package com.krnzft.restful.api.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.krnzft.restful.api.dto.PriceRequest;
+import com.krnzft.restful.api.dto.PriceResponse;
 import com.krnzft.restful.api.service.PriceService;
 
 @RestController
@@ -20,8 +23,8 @@ public class PriceController {
 	private PriceService priceService;
 	
 	@PostMapping("/currentPrice")
-	public ResponseEntity<?> searchCurrentPrice(@Valid @RequestBody PriceRequest request) {
-		ResponseEntity<?> response = null;
+	public ResponseEntity<List<PriceResponse>> searchCurrentPrice(@Valid @RequestBody PriceRequest request) {
+		ResponseEntity<List<PriceResponse>> response = null;
 		response = ResponseEntity.ok(priceService.searchCurrentPrice(request));
 		return response;
 	}
