@@ -1,11 +1,11 @@
 package com.krnzft.restful.api.util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import static com.krnzft.restful.api.util.Constants.FORMAT_DATE;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.stereotype.Component;
-
 /**
  * Maneja utilitarios de fechas
  * @author David Cruz
@@ -14,14 +14,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class DatesUtil {
 
-	private static final String FORMAT_DATE = "yyyy-MM-dd-HH.mm.ss";
-	public Date parseDate(String formatDate) throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE);
-		return sdf.parse(formatDate);
+	public LocalDateTime parseDate(String formatDate) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT_DATE); 
+		LocalDateTime dateTime = LocalDateTime.parse(formatDate, formatter);
+		return dateTime;
 	}
 	
-	public String formatDate(Date parseDate) {
-		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE);
-		return sdf.format(parseDate);
-	}
 }

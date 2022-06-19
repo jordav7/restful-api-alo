@@ -1,19 +1,21 @@
 package com.krnzft.restful.api.service;
 
-import java.text.ParseException;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.krnzft.restful.api.dto.PriceRequest;
 import com.krnzft.restful.api.dto.PriceResponse;
-import com.krnzft.restful.api.model.Price;
 import com.krnzft.restful.api.repository.PriceRepository;
 import com.krnzft.restful.api.util.DatesUtil;
 
+/**
+ * Componente que gestiona la llamada a los repositorios
+ * @author David
+ *
+ */
 @Service
 public class PriceService {
 	
@@ -22,13 +24,14 @@ public class PriceService {
 	@Autowired
 	private PriceRepository priceRepository;
 
-	public List<PriceResponse> searchCurrentPrice(PriceRequest request) throws ParseException {
-		Date appDate = datesUtil.parseDate(request.getApplicationDate());
-		List<Price> prices = priceRepository.findByCurrentPriceData(appDate, request.getProductId(), request.getBrandId());
-		List<PriceResponse> responses = prices.stream().map(price -> 
-			new PriceResponse(price.getProductId(), price.getBrandId(), price.getPriceList(),
-					datesUtil.formatDate(price.getStartDate()), datesUtil.formatDate(price.getEndDate()),
-					price.getPrice())).collect(Collectors.toList());
-		return responses;
+	/**
+	 * busca el producto en base a los datos enviados
+	 * @param objeto que contiene los datos de la petición
+	 * @return la lista de productos
+	 */
+	public List<PriceResponse> searchCurrentPrice(PriceRequest request) {
+		LocalDateTime appDate = datesUtil.parseDate(request.getApplicationDate());
+		List<PriceResponse> prices = priceRepository.findByCurrentPriceData(appDate, request.getProductId(), request.getBrandId());
+		return prices;
 	}
 }

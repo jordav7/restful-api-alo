@@ -1,7 +1,9 @@
 package com.krnzft.restful.api.model;
 
+import static com.krnzft.restful.api.util.Constants.FORMAT_DATE;
+
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,11 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table(name = "prices")
 public class Price {
@@ -23,28 +26,36 @@ public class Price {
 	private Long id;
 	
 	@Column(name = "brand_id")
+	@NotNull
 	private Long brandId;
 	
 	@Column(name = "start_date")
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "yyyy-MM-dd-HH.mm.ss")
-	private Date startDate;
+	@DateTimeFormat(pattern = FORMAT_DATE)
+	@JsonFormat(pattern = FORMAT_DATE)
+	@NotNull
+	private LocalDateTime startDate;
 	
 	@Column(name = "end_date")
-	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "yyyy-MM-dd-HH.mm.ss")
-	private Date endDate;
+	@DateTimeFormat(pattern = FORMAT_DATE)
+	@JsonFormat(pattern = FORMAT_DATE)
+	@NotNull
+	private LocalDateTime endDate;
 	
 	@Column(name = "price_list")
+	@NotNull
 	private Long priceList;
 	
 	@Column(name = "product_id")
+	@NotNull
 	private Long productId;
 	
+	@NotNull
 	private Long priority;
 	
+	@NotNull
 	private BigDecimal price;
 	
+	@NotBlank
 	private String currency;
 
 	public Long getId() {
@@ -63,19 +74,19 @@ public class Price {
 		this.brandId = brandId;
 	}
 
-	public Date getStartDate() {
+	public LocalDateTime getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDateTime startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDateTime getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDateTime endDate) {
 		this.endDate = endDate;
 	}
 
